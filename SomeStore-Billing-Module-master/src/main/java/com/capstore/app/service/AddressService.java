@@ -12,28 +12,31 @@ import org.springframework.stereotype.Service;
 import com.capstore.app.models.CustomerDetails;
 import com.capstore.app.models.UserAddress;
 import com.capstore.app.repository.CustomerRepository;
+import com.capstore.app.repository.UserAddressRepositiry;
 
 @Service
 public class AddressService {
 
 	@Autowired
 	CustomerRepository customerRepository;
-	
+	@Autowired
+	UserAddressRepositiry userAddressRepository;
 	public List<UserAddress> getAllAddresses(int userId){
 		CustomerDetails customer=customerRepository.findById(userId).get();
 		List<UserAddress> addresses= new ArrayList<UserAddress>(customer.getAddresses());
 		return addresses;
 	}
 	
-	@Transactional
 	public void saveNewAddress(int userId,UserAddress address) {
-		CustomerDetails customer=customerRepository.getOne(userId);
+		
+		CustomerDetails customer=customerRepository.findById(userId).get();
 		Set<UserAddress> addresses = customer.getAddresses();
 		addresses.add(address);
 		customer.setAddresses(addresses);
+		customerRepository.save(customer);
 		
-	//	customerRepository.save(customer);
-		customerRepository.updateUser(address, userId);
-		
+	}
+	public void deleteAddress(int addressId) {
+		userAddressRepository.deleteById(addressId);
 	}
 }

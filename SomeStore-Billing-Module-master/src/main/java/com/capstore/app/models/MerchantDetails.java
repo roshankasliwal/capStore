@@ -29,12 +29,20 @@ public class MerchantDetails extends User{
 	@JoinColumn(name="user_id")
 	private Set<Product> products;
 	
+	public Set<UserAddress> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(Set<UserAddress> addresses) {
+		this.addresses = addresses;
+	}
+	/*
+	 * @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	 * 
+	 * @JoinColumn(name="user_id") private Set<UserAddress> addresses;
+	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="user_id")
-	private Set<UserAddress> addresses;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="merchant_id")
 	private Set<ProductFeedback> pF;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -47,14 +55,17 @@ public class MerchantDetails extends User{
 	@Column(name = "rating")
     private int rating;
 	
-	
+	 @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	    @JoinColumn(name="merchant_id")
+	    private Set<UserAddress> addresses;
+	    
 	
 	
 
 	public MerchantDetails(String name, String username, String password, String eMail, String role, boolean isActive,
 			String securityQuestion, String securityAnswer, String phoneNumber, String alternatePhoneNumber,
-			String alternateEmail, Set<Product> products, Set<UserAddress> addresses, Set<ProductFeedback> pF,
-			Set<Coupon> coupons, boolean isApproved, int rating, int inventoryId) {
+			String alternateEmail, Set<Product> products, Set<ProductFeedback> pF,
+			Set<Coupon> coupons, boolean isApproved, int rating, int inventoryId,Set<UserAddress>addresses) {
 		super(name, username, password, eMail, role, isActive, securityQuestion, securityAnswer);
 		this.phoneNumber = phoneNumber;
 		this.alternatePhoneNumber = alternatePhoneNumber;
@@ -76,7 +87,7 @@ public class MerchantDetails extends User{
 		this.alternatePhoneNumber = alternatePhoneNumber;
 		this.alternateEmail = alternateEmail;
 		this.products = products;
-		this.addresses = addresses;
+		//this.addresses = addresses;
 		this.pF = pF;
 		this.coupons = coupons;
 		this.isApproved = isApproved;
@@ -114,9 +125,9 @@ public class MerchantDetails extends User{
 	public Set<Product> getProducts() { return products; } 
 	public void setProducts(Set<Product> products) { this.products = products; }
 	
-	public Set<UserAddress> getAddresses() { return addresses; } 
-	public void setAddresses(Set<UserAddress> addresses) { this.addresses = addresses; }
-	
+//	public Set<UserAddress> getAddresses() { return addresses; } 
+//	public void setAddresses(Set<UserAddress> addresses) { this.addresses = addresses; }
+//	
 	public Set<Coupon> getCoupons() { return coupons; }
 	public void setCoupons(Set<Coupon> coupons) { this.coupons = coupons; }
 	 
